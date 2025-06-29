@@ -9,7 +9,7 @@ const Header: React.FC = () => {
         <div className="header-brand">
           <Scale className="header-icon" size={32} />
           <div className="header-text">
-            <h1 className="header-title">Case Law AI Assistant</h1>
+            <h1 className="header-title">Case Law AI</h1>
             <p className="header-subtitle">Intelligent Legal Research for Law Enforcement</p>
           </div>
         </div>

@@ -1,14 +1,16 @@
 .case-card {
-  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1.5rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s ease;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0;
+  margin-bottom: 0;
+  box-shadow: none;
+  transition: all 0.3s ease;
   overflow: hidden;
   position: relative;
-  backdrop-filter: blur(20px);
   animation: cardFadeIn 0.6s ease-out both;
+  width: 100%;
+  padding: 2rem 0;
 }
 
 @keyframes cardFadeIn {
@@ -23,40 +25,26 @@
 }
 
 .case-card:hover {
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-  transform: translateY(-5px);
-  border-color: rgba(59, 130, 246, 0.3);
+  background: rgba(255, 255, 255, 0.01);
+  border-bottom-color: rgba(59, 130, 246, 0.2);
 }
 
 .case-card.expanded {
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  border-color: rgba(59, 130, 246, 0.5);
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom-color: rgba(59, 130, 246, 0.3);
 }
 
-/* Animated background effect */
 .case-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-  transition: left 0.6s ease;
-  pointer-events: none;
-}
-
-.case-card:hover::before {
-  left: 100%;
+  display: none;
 }
 
 .case-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 2rem 1.5rem 2rem;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 0 1.5rem 0;
+  background: transparent;
+  border-bottom: none;
   position: relative;
 }
 
@@ -184,8 +172,7 @@
 }
 
 .case-title-section {
-  padding: 2rem;
-  padding-bottom: 1.5rem;
+  padding: 0 0 1rem 0;
 }
 
 .case-title {
@@ -333,7 +320,7 @@
 }
 
 .case-summary {
-  padding: 0 2rem 1.5rem 2rem;
+  padding: 0 0 1.5rem 0;
 }
 
 .summary-content p {
@@ -381,7 +368,7 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.6s ease;
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(15, 23, 42, 0.2);
 }
 
 .case-details.expanded {
@@ -393,8 +380,8 @@
   padding: 2rem;
   display: grid;
   gap: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.3);
 }
 
 .detail-section {
@@ -505,9 +492,9 @@
 }
 
 .case-footer {
-  padding: 1.5rem 2rem;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 0 0 0;
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .footer-actions {
@@ -634,6 +621,23 @@
   .footer-actions {
     flex-direction: column;
     align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .details-grid {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+  
+  .takeaways-grid {
+    gap: 0.75rem;
+  }
+  
+  .case-title-section,
+  .case-summary {
+    padding: 1.5rem;
+  }
+}
     gap: 1rem;
   }
   
