@@ -257,9 +257,7 @@ const SearchInterface: React.FC = () => {
         {/* Hero Section */}
         <div className="search-hero">
           <div className="hero-content">
-            <div className="hero-icon-container">
-              <Sparkles className="hero-icon" size={32} />
-            </div>
+            {/* Remove the flashing hero-icon-container */}
             <h1 className="hero-title">
               <span className="title-gradient">Search Case Law</span>
             </h1>
@@ -362,7 +360,7 @@ const SearchInterface: React.FC = () => {
           </form>
 
           {/* Quick Actions */}
-          <div className="quick-actions">
+          {/* <div className="quick-actions">
             <div className="quick-action-item" onClick={() => setQuery("search vehicle without consent")}>
               <span>🚗</span>
               <span>Vehicle Searches</span>
@@ -379,7 +377,7 @@ const SearchInterface: React.FC = () => {
               <span>🔍</span>
               <span>Probable Cause</span>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Error Message */}
