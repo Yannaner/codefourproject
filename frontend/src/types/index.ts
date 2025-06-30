@@ -13,12 +13,20 @@ export interface CaseSummary {
   jurisdiction?: string;
 }
 
+export interface QueryClarification {
+  needs_clarification: boolean;
+  clarification_message: string;
+  suggested_refinements: string[];
+  original_query: string;
+}
+
 export interface QueryResponse {
   query: string;
   results: CaseSummary[];
   total_results: number;
   processing_time: number;
   jurisdiction_filter?: string;
+  clarification?: QueryClarification;
 }
 
 export interface QueryRequest {

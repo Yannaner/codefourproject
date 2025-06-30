@@ -26,7 +26,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
         </div>
       </div>
 
-      {results.results.length === 0 ? (
+      {results.results.length === 0 && !results.clarification ? (
         <div className="no-results">
           <p>No relevant cases found. Try rephrasing your query or using different legal terms.</p>
         </div>

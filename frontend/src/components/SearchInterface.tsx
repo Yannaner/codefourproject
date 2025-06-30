@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, Loader2, FileText, MapPin, Sparkles, ArrowRight } from 'lucide-react';
 import { searchCaseLaw, generateReport, getJurisdictions } from '../services/api';
-import type { QueryResponse, ReportResponse, Jurisdiction } from '../types';
+import type { QueryResponse, ReportResponse, Jurisdiction, QueryClarification } from '../types';
 import SearchResults from './SearchResults';
 import './SearchInterface.css';
 
@@ -19,6 +19,7 @@ const SearchInterface: React.FC = () => {
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
   const [isTyping, setIsTyping] = useState(false);
   const [animationPhase, setAnimationPhase] = useState(0);
+  const [clarification, setClarification] = useState<QueryClarification | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
@@ -106,12 +107,21 @@ const SearchInterface: React.FC = () => {
     setLoading(true);
     setError(null);
     setReport(null);
+    setClarification(null);
 
     try {
       const response = await searchCaseLaw({ 
         query: query.trim(), 
         jurisdiction: jurisdiction 
       });
+
+      // Check if response contains clarification request
+      if (response.clarification?.needs_clarification) {
+        setClarification(response.clarification);
+        setResults(null);
+        return;
+      }
+
       setResults(response);
       
       // Automatically generate the action report after getting results
@@ -137,6 +147,18 @@ const SearchInterface: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRefinementClick = (refinement: string) => {
+    setQuery(refinement);
+    setClarification(null);
+    // Automatically trigger search with refined query
+    setTimeout(() => {
+      const form = document.querySelector('.search-form-modern') as HTMLFormElement;
+      if (form) {
+        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      }
+    }, 100);
   };
 
   const generateSuggestions = useCallback((input: string) => {
@@ -388,6 +410,46 @@ const SearchInterface: React.FC = () => {
               <div>
                 <h4>Something went wrong</h4>
                 <p>{error}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Clarification Section */}
+        {clarification && (
+          <div className="clarification-container">
+            <div className="clarification-content">
+              <div className="clarification-header">
+                <div className="clarification-icon">💡</div>
+                <h3>Need More Specifics</h3>
+              </div>
+              <p className="clarification-message">{clarification.clarification_message}</p>
+              <div className="clarification-suggestions">
+                <h4>Try one of these specific queries:</h4>
+                <div className="suggestions-grid">
+                  {clarification.suggested_refinements.map((suggestion, index) => (
+                    <button
+                      key={index}
+                      className="suggestion-button"
+                      onClick={() => handleRefinementClick(suggestion)}
+                    >
+                      <Search size={16} />
+                      <span>{suggestion}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="clarification-footer">
+                <button 
+                  className="continue-anyway-button"
+                  onClick={() => {
+                    setClarification(null);
+                    // Trigger search with original query anyway
+                    handleSearch({ preventDefault: () => {} } as React.FormEvent);
+                  }}
+                >
+                  Continue with "{clarification.original_query}" anyway
+                </button>
               </div>
             </div>
           </div>
